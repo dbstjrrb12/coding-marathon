@@ -1,14 +1,23 @@
+import CirclePoint from './pointer/circle';
+import Pointer from './pointer/pointer';
+
 class App {
-  ctx: RenderingContext;
   root: HTMLDivElement;
   canvas: HTMLCanvasElement;
   pixelRatio: number;
+  pointer: Pointer;
 
   constructor(canvas: HTMLCanvasElement) {
     this.root = document.querySelector('div#root');
-    this.ctx = canvas.getContext('2d');
     this.canvas = canvas;
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
+    this.pointer = new Pointer(
+      new CirclePoint(this.canvas, {
+        width: 20,
+        height: 20,
+        canvasBackgroundColor: 'white',
+      })
+    );
 
     window.addEventListener('resize', this.resize.bind(this));
   }
@@ -19,6 +28,7 @@ class App {
 
     this.canvas.width = rootWidth * this.pixelRatio;
     this.canvas.height = rootHeight * this.pixelRatio;
+    this.pointer.activate();
   }
 
   render() {
